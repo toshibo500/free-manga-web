@@ -1,57 +1,24 @@
-'use client';
-
-import { useState, useEffect } from 'react';
 import { getMangaById } from '@/data/mangaData';
 import { Manga } from '@/types/manga';
 import { getCategoryName } from '@/utils/categoryUtils';
+import { notFound } from 'next/navigation';
 
-export default function MangaDetailPage({ params }: { params: { id: string } }) {
+// サーバーコンポーネントとしてasync/awaitを直接使用可能
+export default async function MangaDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
-  const [manga, setManga] = useState<Manga | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    async function fetchMangaDetail() {
-      setIsLoading(true);
-      setError('');
-      try {
-        const data = await getMangaById(id);
-        if (data) {
-          setManga(data);
-        } else {
-          setError('マンガが見つかりませんでした。');
-        }
-      } catch (err) {
-        setError('マンガデータの取得に失敗しました。');
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
+  
+  // サーバーサイドでデータを直接フェッチ
+  let manga: Manga | undefined;
+  try {
+    manga = await getMangaById(id);
+    
+    // マンガが見つからない場合は404ページを表示
+    if (!manga) {
+      notFound();
     }
-
-    fetchMangaDetail();
-  }, [id]);
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
-  }
-
-  if (error || !manga) {
-    return (
-      <div className="container mx-auto p-6">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-          <span className="block sm:inline">{error || 'マンガ情報を取得できませんでした。'}</span>
-        </div>
-        <div className="mt-4">
-          <a href="/" className="text-blue-500 hover:underline">ホームに戻る</a>
-        </div>
-      </div>
-    );
+  } catch (err) {
+    console.error('マンガデータの取得に失敗しました。', err);
+    throw new Error('マンガデータの取得に失敗しました。');
   }
 
   return (

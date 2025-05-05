@@ -14,5 +14,15 @@ services:
       - /app/.next
     environment:
       - NODE_ENV=development
+      - API_INTERNAL_URL=http://prism-mock:4010
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:4010
     # ホットリロードを有効化
     command: npm run dev
+    # 既存のモックAPIネットワークに接続
+    networks:
+      - default
+      - free-manga-apimock_default
+
+networks:
+  free-manga-apimock_default:
+    external: true
