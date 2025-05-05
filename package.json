@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "eslint --fix 'src/**/*.{ts,tsx}'",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "next": "^14.0.0",
