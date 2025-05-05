@@ -12,11 +12,6 @@ const MangaCard: React.FC<MangaCardProps> = ({ manga, rank }) => {
   return (
     <Link href={`/manga/${manga.id}`} className="block">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105 relative">
-        {/* ランキング表示 - 常に表示するようにスタイル修正 */}
-        <div className="absolute top-0 left-0 bg-blue-600 text-white font-bold py-2 px-4 rounded-br-lg z-10">
-          {rank}位
-        </div>
-        
         <div className="relative h-64 w-full">
           <Image 
             src={manga.coverImage} 
@@ -24,6 +19,10 @@ const MangaCard: React.FC<MangaCardProps> = ({ manga, rank }) => {
             fill
             className="object-cover"
           />
+          {/* カテゴリ表示 - 左下に配置、より小さく、色も薄く */}
+          <div className="absolute bottom-2 left-2 bg-blue-500/70 text-white text-xs py-1 px-2 rounded z-10">
+            {manga.category}
+          </div>
         </div>
         
         <div className="p-4">

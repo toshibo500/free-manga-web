@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-3xl font-bold text-center my-8">人気マンガランキング</h2>
+      <h2 className="text-3xl font-bold text-center my-8">人気無料マンガまとめ</h2>
       
       {/* カテゴリ選択コンポーネント */}
       <CategorySelector 
