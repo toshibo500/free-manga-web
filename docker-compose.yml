@@ -5,17 +5,13 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    container_name: free-manta-web
+    container_name: free-manga-web
     ports:
       - "3000:3000"
     volumes:
       - ./:/app
       - /app/node_modules
       - /app/.next
-    environment:
-      - NODE_ENV=development
-      - API_INTERNAL_URL=http://prism-mock:4010
-      - NEXT_PUBLIC_API_BASE_URL=http://localhost:4010
     # ホットリロードを有効化
     command: npm run dev
     # 既存のモックAPIネットワークに接続
