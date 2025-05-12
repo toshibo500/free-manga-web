@@ -17,8 +17,8 @@ services:
     # 既存のモックAPIネットワークに接続
     networks:
       - default
-      - free-manga-apimock_default
+      - free-manga-backend_default
 
 networks:
-  free-manga-apimock_default:
+  free-manga-backend_default:
     external: true

@@ -6,13 +6,18 @@ const fetchOptions = {
   next: { revalidate: 0 }, // データを毎回再検証
 };
 
+// 環境に応じたAPI Base URLを取得する関数
+function getApiBaseUrl(): string {
+  return typeof window !== 'undefined'
+    ? process.env.NEXT_PUBLIC_API_BASE_URL || 'https://example.com'
+    : process.env.INTERNAL_API_BASE_URL || 'https://example.com';
+}
+
 // カテゴリでフィルタリングしてTop10のマンガを取得する非同期関数
 export async function getMangasByCategory(categoryId: string): Promise<Manga[]> {
   try {
-    // 環境変数からAPIのベースURLを取得 クライアントサイドとサーバーサイドで異なるURLを使用
-    const API_BASE_URL = typeof window !== 'undefined'
-      ? process.env.NEXT_PUBLIC_API_BASE_URL || 'https://example.com'
-      : process.env.INTERNAL_API_BASE_URL || 'https://example.com';
+    // API Base URLを取得
+    const API_BASE_URL = getApiBaseUrl();
 
     const response = await fetch(`${API_BASE_URL}/api/v1/manga/popular-books/${categoryId}/`, fetchOptions);
     
@@ -31,10 +36,8 @@ export async function getMangasByCategory(categoryId: string): Promise<Manga[]> 
 // ID指定でマンガデータを取得する非同期関数
 export async function getMangaById(id: string): Promise<Manga | undefined> {
   try {
-    // 環境変数からAPIのベースURLを取得 クライアントサイドとサーバーサイドで異なるURLを使用
-    const API_BASE_URL = typeof window !== 'undefined'
-      ? process.env.NEXT_PUBLIC_API_BASE_URL || 'https://example.com'
-      : process.env.INTERNAL_API_BASE_URL || 'https://example.com';
+    // API Base URLを取得
+    const API_BASE_URL = getApiBaseUrl();
       
     console.log(`フェッチしています - URL: ${API_BASE_URL}/api/v1/manga/${id}/`);
     console.log(`実行環境: ${typeof window === 'undefined' ? 'サーバーサイド' : 'クライアントサイド'}`);
