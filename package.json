@@ -11,7 +11,8 @@
     "type-check": "tsc --noEmit",
     "generate-api-types": "ts-node src/scripts/generate-api-types.ts",
     "generate-types": "npx openapi-typescript src/schema/manga-api.json -o src/types/manga-api.generated.ts",
-    "test-api": "ts-node test-api.ts"
+    "test-api": "ts-node test-api.ts",
+    "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json}'"
   },
   "dependencies": {
     "next": "^14.0.0",
@@ -26,8 +27,10 @@
     "axios": "^1.9.0",
     "eslint": "^8.38.0",
     "eslint-config-next": "^14.0.0",
+    "eslint-config-prettier": "^10.1.5",
     "openapi-typescript": "^7.8.0",
     "postcss": "^8.4.23",
+    "prettier": "^3.5.3",
     "tailwindcss": "^3.3.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.0.4"

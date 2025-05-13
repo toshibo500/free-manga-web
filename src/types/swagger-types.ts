@@ -21,10 +21,10 @@ export interface PaginatedResponse<T> {
 export interface SwaggerResponses {
   // 単一マンガの取得レスポンス
   getManga: SwaggerManga;
-  
+
   // マンガ一覧の取得レスポンス
   getMangaList: PaginatedResponse<SwaggerManga>;
-  
+
   // カテゴリ別人気マンガの取得レスポンス
   getPopularMangas: SwaggerManga[];
 }
@@ -33,13 +33,13 @@ export interface SwaggerResponses {
 export type Components = {
   schemas: {
     Manga: SwaggerManga;
-  }
+  };
 };
 
 export const components = {
   schemas: {
-    Manga: {} as SwaggerManga
-  }
+    Manga: {} as SwaggerManga,
+  },
 } as const;
 
 // API のパスとエンドポイント定義

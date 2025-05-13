@@ -1,10 +1,10 @@
 // カテゴリーIDから表示名へのマッピング
 export const categoryMap: Record<string, string> = {
-  'all': '全て',
-  'shounen': '少年マンガ',
-  'shoujo': '少女マンガ',
-  'seinen': '青年マンガ',
-  'josei': '女性マンガ',
+  all: "全て",
+  shounen: "少年マンガ",
+  shoujo: "少女マンガ",
+  seinen: "青年マンガ",
+  josei: "女性マンガ",
 };
 
 // カテゴリーIDから表示名を取得する関数
@@ -16,6 +16,6 @@ export function getCategoryName(categoryId: string): string {
 export function getCategories() {
   return Object.entries(categoryMap).map(([id, name]) => ({
     id,
-    name
+    name,
   }));
 }

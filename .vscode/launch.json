@@ -48,7 +48,10 @@
   "compounds": [
     {
       "name": "フルスタックデバッグ",
-      "configurations": ["Next.js: サーバーサイドデバッグ", "Next.js: クライアントサイドデバッグ"]
+      "configurations": [
+        "Next.js: サーバーサイドデバッグ",
+        "Next.js: クライアントサイドデバッグ"
+      ]
     }
   ]
 }
