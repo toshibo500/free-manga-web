@@ -20,9 +20,13 @@ const MangaCard: React.FC<MangaCardProps> = ({ manga, rank }) => {
             fill
             className="object-cover"
           />
-          {/* カテゴリ表示 - 左下に配置、より小さく、色も薄く */}
-          <div className="absolute bottom-2 left-2 bg-blue-500/70 text-white text-xs py-1 px-2 rounded z-10">
-            {getCategoryName(manga.category)}
+          {/* カテゴリ表示 - 左下に配置、最大3つのカテゴリを表示 */}
+          <div className="absolute bottom-2 left-2 flex flex-wrap gap-1 z-10">
+            {manga.categories && manga.categories.slice(0, 3).map((category, index) => (
+              <span key={index} className="bg-blue-500/70 text-white text-xs py-1 px-2 rounded">
+                {getCategoryName(category)}
+              </span>
+            ))}
           </div>
         </div>
         
@@ -33,7 +37,11 @@ const MangaCard: React.FC<MangaCardProps> = ({ manga, rank }) => {
             <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">
               無料{manga.freeChapters}冊
             </span>
-            <span className="text-sm text-gray-500">{getCategoryName(manga.category)}</span>
+            <span className="text-sm text-gray-500">
+              {manga.categories && manga.categories.length > 0 
+                ? `${getCategoryName(manga.categories[0])}${manga.categories.length > 1 ? ' 他' : ''}` 
+                : '未分類'}
+            </span>
           </div>
         </div>
       </div>

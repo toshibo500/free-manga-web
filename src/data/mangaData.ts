@@ -17,7 +17,10 @@ function convertToManga(apiManga: any): Manga {
     rating: apiManga.rating || 0,
     category: Array.isArray(apiManga.categories) && apiManga.categories.length > 0 
       ? apiManga.categories[0] 
-      : '', // categoriesが配列なので最初の要素を使用
+      : '', // 後方互換性のため最初の要素を保持
+    categories: Array.isArray(apiManga.categories) 
+      ? apiManga.categories 
+      : [], // 全てのカテゴリを配列として保持
     freeChapters: 0, // APIからの値がない場合はデフォルト値を設定
     freeBooks: 0 // APIからの値がない場合はデフォルト値を設定
   };
