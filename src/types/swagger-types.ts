@@ -29,12 +29,18 @@ export interface SwaggerResponses {
   getPopularMangas: SwaggerManga[];
 }
 
-// components型の名前空間を維持して互換性を保つ
-export namespace components {
-  export namespace schemas {
-    export type Manga = SwaggerManga;
+// components型をES2015モジュール構文で定義して互換性を保つ
+export type Components = {
+  schemas: {
+    Manga: SwaggerManga;
   }
-}
+};
+
+export const components = {
+  schemas: {
+    Manga: {} as SwaggerManga
+  }
+} as const;
 
 // API のパスとエンドポイント定義
 export interface ApiPaths {
