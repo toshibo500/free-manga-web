@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "eslint --fix 'src/**/*.{ts,tsx}'",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "generate-api-types": "ts-node src/scripts/generate-api-types.ts",
+    "generate-types": "npx openapi-typescript src/schema/manga-api.json -o src/types/manga-api.generated.ts",
+    "test-api": "ts-node test-api.ts"
   },
   "dependencies": {
     "next": "^14.0.0",
@@ -20,10 +23,13 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "autoprefixer": "^10.4.14",
+    "axios": "^1.9.0",
     "eslint": "^8.38.0",
     "eslint-config-next": "^14.0.0",
+    "openapi-typescript": "^7.8.0",
     "postcss": "^8.4.23",
     "tailwindcss": "^3.3.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.0.4"
   }
 }

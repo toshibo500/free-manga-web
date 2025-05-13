@@ -1,32 +1,36 @@
 import { Manga } from '@/types/manga';
+import { fetchMangaById, fetchMangasByCategory } from '@/api/mangaApi';
+import type { SwaggerManga } from '@/types/swagger-types';
 
-// フェッチオプション（サーバーサイドレンダリング用）
-const fetchOptions = {
-  cache: 'no-store' as const, // SSRでのキャッシュを無効化
-  next: { revalidate: 0 }, // データを毎回再検証
-};
+// APIレスポンスからManga型への変換
+type ApiManga = SwaggerManga;
 
-// 環境に応じたAPI Base URLを取得する関数
-function getApiBaseUrl(): string {
-  return typeof window !== 'undefined'
-    ? process.env.NEXT_PUBLIC_API_BASE_URL || 'https://example.com'
-    : process.env.INTERNAL_API_BASE_URL || 'https://example.com';
+// APIレスポンスをアプリケーション内で使用する型に変換
+function convertToManga(apiManga: any): Manga {
+  // anyタイプを使用して、APIの実際のレスポンスに適応できるようにする
+  return {
+    id: String(apiManga.id || ''), // idが数値の場合、文字列に変換
+    title: apiManga.title || '',
+    author: apiManga.author || '',
+    coverImage: apiManga.cover_image || '', // Swagger定義ではcover_imageを使用
+    description: apiManga.description || '',
+    rating: apiManga.rating || 0,
+    category: Array.isArray(apiManga.categories) && apiManga.categories.length > 0 
+      ? apiManga.categories[0] 
+      : '', // categoriesが配列なので最初の要素を使用
+    freeChapters: 0, // APIからの値がない場合はデフォルト値を設定
+    freeBooks: 0 // APIからの値がない場合はデフォルト値を設定
+  };
 }
 
 // カテゴリでフィルタリングしてTop10のマンガを取得する非同期関数
 export async function getMangasByCategory(categoryId: string): Promise<Manga[]> {
   try {
-    // API Base URLを取得
-    const API_BASE_URL = getApiBaseUrl();
-
-    const response = await fetch(`${API_BASE_URL}/api/v1/manga/popular-books/${categoryId}/`, fetchOptions);
+    console.log(`カテゴリー ${categoryId} のマンガを取得しています...`);
+    console.log(`実行環境: ${typeof window === 'undefined' ? 'サーバーサイド' : 'クライアントサイド'}`);
     
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    return data;
+    const apiMangas = await fetchMangasByCategory(categoryId);
+    return Array.isArray(apiMangas) ? apiMangas.map(convertToManga) : [];
   } catch (error) {
     console.error('Failed to fetch manga data:', error);
     return [];
@@ -36,20 +40,11 @@ export async function getMangasByCategory(categoryId: string): Promise<Manga[]> 
 // ID指定でマンガデータを取得する非同期関数
 export async function getMangaById(id: string): Promise<Manga | undefined> {
   try {
-    // API Base URLを取得
-    const API_BASE_URL = getApiBaseUrl();
-      
-    console.log(`フェッチしています - URL: ${API_BASE_URL}/api/v1/manga/${id}/`);
+    console.log(`ID ${id} のマンガを取得しています...`);
     console.log(`実行環境: ${typeof window === 'undefined' ? 'サーバーサイド' : 'クライアントサイド'}`);
     
-    const response = await fetch(`${API_BASE_URL}/api/v1/manga/${id}`, fetchOptions);
-    
-    if (!response.ok) {
-      console.error(`API Error: Status ${response.status}`);
-      throw new Error(`API error: ${response.status}`);
-    }
-    
-    return await response.json();
+    const apiManga = await fetchMangaById(id);
+    return convertToManga(apiManga);
   } catch (error) {
     console.error(`Failed to fetch manga with id ${id}:`, error);
     throw new Error(`マンガデータの取得に失敗しました。詳細: ${error instanceof Error ? error.message : String(error)}`);

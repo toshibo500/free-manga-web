@@ -12,6 +12,26 @@
       "problemMatcher": []
     },
     {
+      "label": "test-openapi-integration",
+      "type": "shell",
+      "command": "docker-compose exec next-app npm run test-api",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "generate-api-types",
+      "type": "shell",
+      "command": "docker-compose exec next-app npm run generate-types",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "next-dev",
       "type": "shell",
       "command": "npm run dev",

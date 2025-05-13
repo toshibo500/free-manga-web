@@ -1,0 +1,202 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Manga API",
+        "description": "API for retrieving manga information",
+        "termsOfService": "https://www.example.com/terms/",
+        "contact": {
+            "email": "contact@example.com"
+        },
+        "license": {
+            "name": "BSD License"
+        },
+        "version": "v1"
+    },
+    "host": "localhost:8000",
+    "schemes": [
+        "http"
+    ],
+    "basePath": "/api/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Basic": {
+            "type": "basic"
+        }
+    },
+    "security": [
+        {
+            "Basic": []
+        }
+    ],
+    "paths": {
+        "/manga/": {
+            "get": {
+                "operationId": "manga_list",
+                "description": "マンガ情報を取得するためのViewSet",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "required": [
+                                "count",
+                                "results"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "type": "integer"
+                                },
+                                "next": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "previous": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "results": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Manga"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "manga"
+                ]
+            },
+            "parameters": []
+        },
+        "/manga/popular-books/{category}/": {
+            "get": {
+                "operationId": "manga_popular-books_read",
+                "summary": "カテゴリ別の人気マンガリストを取得するビュー",
+                "description": "クエリパラメータ:\n- count: 返すマンガの件数（デフォルト: 10、最大: 100）\n- offset: 開始位置（デフォルト: 0）",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Manga"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "manga"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "category",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/manga/{id}/": {
+            "get": {
+                "operationId": "manga_read",
+                "description": "マンガ情報を取得するためのViewSet",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Manga"
+                        }
+                    }
+                },
+                "tags": [
+                    "manga"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this マンガ.",
+                    "required": true,
+                    "type": "integer"
+                }
+            ]
+        }
+    },
+    "definitions": {
+        "Manga": {
+            "required": [
+                "title",
+                "author",
+                "cover_image",
+                "categories"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Id",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1
+                },
+                "author": {
+                    "title": "Author",
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "cover_image": {
+                    "title": "Cover image",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "uniqueItems": true
+                },
+                "description": {
+                    "title": "Description",
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "rating": {
+                    "title": "Rating",
+                    "type": "integer",
+                    "maximum": 4294967295,
+                    "minimum": 0
+                }
+            }
+        }
+    }
+}
