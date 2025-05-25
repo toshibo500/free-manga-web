@@ -22,11 +22,7 @@
       "type": "basic"
     }
   },
-  "security": [
-    {
-      "Basic": []
-    }
-  ],
+  "security": [{"Basic": []}],
   "paths": {
     "/manga/": {
       "get": {
@@ -172,6 +168,20 @@
         },
         "rating": {
           "title": "Rating",
+          "type": "integer",
+          "maximum": 4294967295,
+          "minimum": 0
+        },
+        "free_chapters": {
+          "title": "Free chapters",
+          "description": "無料で読める話数",
+          "type": "integer",
+          "maximum": 4294967295,
+          "minimum": 0
+        },
+        "free_books": {
+          "title": "Free books",
+          "description": "無料で読める巻数",
           "type": "integer",
           "maximum": 4294967295,
           "minimum": 0
