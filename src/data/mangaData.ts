@@ -20,8 +20,8 @@ function convertToManga(apiManga: any): Manga {
         ? apiManga.categories[0]
         : "", // 後方互換性のため最初の要素を保持
     categories: Array.isArray(apiManga.categories) ? apiManga.categories : [], // 全てのカテゴリを配列として保持
-    freeChapters: 0, // APIからの値がない場合はデフォルト値を設定
-    freeBooks: 0, // APIからの値がない場合はデフォルト値を設定
+    freeChapters: apiManga.free_chapters || 0, // APIからの値がない場合はデフォルト値を設定
+    freeBooks: apiManga.free_books || 0, // APIからの値がない場合はデフォルト値を設定
   };
 }
 

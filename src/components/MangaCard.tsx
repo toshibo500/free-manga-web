@@ -38,9 +38,18 @@ const MangaCard: React.FC<MangaCardProps> = ({ manga, rank }) => {
           <h3 className="text-xl font-bold mb-2">{manga.title}</h3>
           <p className="text-gray-600 mb-2">{manga.author}</p>
           <div className="flex items-center justify-between">
-            <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">
-              無料{manga.freeChapters}冊
-            </span>
+            <div className="flex items-center space-x-2">
+              {manga.freeBooks > 0 && (
+                <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">
+                  無料{manga.freeBooks}冊
+                </span>
+              )}
+              {manga.freeChapters > 0 && (
+                <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">
+                  無料{manga.freeChapters}話
+                </span>
+              )}
+            </div>
             <span className="text-sm text-gray-500">
               {manga.categories && manga.categories.length > 0
                 ? `${getCategoryName(manga.categories[0])}${manga.categories.length > 1 ? " 他" : ""}`
