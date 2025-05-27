@@ -12,7 +12,7 @@ function convertToManga(apiManga: any): Manga {
     id: String(apiManga.id || ""), // idが数値の場合、文字列に変換
     title: apiManga.title || "",
     author: apiManga.author || "",
-    coverImage: apiManga.cover_image || "", // Swagger定義ではcover_imageを使用
+    coverImage: apiManga.cover_image || "/placeholder-cover.svg", // Swagger定義ではcover_imageを使用、空の場合はプレースホルダー
     description: apiManga.description || "",
     rating: apiManga.rating || 0,
     category:
