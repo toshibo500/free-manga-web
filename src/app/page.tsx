@@ -23,7 +23,7 @@ export default function Home() {
       setError("");
       try {
         const data = await getMangasByCategory(selectedCategory);
-        setMangaList(data);
+        setMangaList(data.slice(0, 50)); // Limit to 50 items
       } catch (err) {
         setError("マンガデータの取得に失敗しました。");
         console.error(err);
