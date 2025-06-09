@@ -12,7 +12,7 @@ function convertToManga(apiManga: any): Manga {
     id: String(apiManga.id || ""), // idが数値の場合、文字列に変換
     title: apiManga.title || "",
     author: apiManga.author || "",
-    coverImage: apiManga.cover_image || "", // Swagger定義ではcover_imageを使用
+    coverImage: apiManga.cover_image || "/placeholder-cover.svg", // Swagger定義ではcover_imageを使用、空の場合はプレースホルダー
     description: apiManga.description || "",
     rating: apiManga.rating || 0,
     category:
@@ -20,8 +20,8 @@ function convertToManga(apiManga: any): Manga {
         ? apiManga.categories[0]
         : "", // 後方互換性のため最初の要素を保持
     categories: Array.isArray(apiManga.categories) ? apiManga.categories : [], // 全てのカテゴリを配列として保持
-    freeChapters: 0, // APIからの値がない場合はデフォルト値を設定
-    freeBooks: 0, // APIからの値がない場合はデフォルト値を設定
+    freeChapters: apiManga.free_chapters || 0, // APIからの値がない場合はデフォルト値を設定
+    freeBooks: apiManga.free_books || 0, // APIからの値がない場合はデフォルト値を設定
   };
 }
 
