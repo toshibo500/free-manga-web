@@ -38,8 +38,19 @@ export default function Home() {
   return (
     <div className="space-y-8">
       <h2 className="text-3xl font-bold text-center my-8">
-        人気マンガランキング
+        無料ありマンガランキング
       </h2>
+
+      {/* サイト説明 */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mx-auto max-w-4xl">
+        <h3 className="text-lg font-semibold text-blue-800 mb-3">このサイトについて</h3>
+        <div className="text-gray-700 space-y-2">
+          <p>🏆 独自の集計方法による無料あり漫画のランキングサイトです（一部無料なしの作品も含まれる場合があります）</p>
+          <p>🔄 ランキングは毎日更新され、最新の人気トレンドをお届けします</p>
+          <p>🔗 各マンガには配信サイトへの直接リンクを設置しています</p>
+          <p>📈 対象となるマンガ配信サイトを順次拡大予定です</p>
+        </div>
+      </div>
 
       {/* カテゴリ選択コンポーネント */}
       <CategorySelector

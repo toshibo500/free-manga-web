@@ -80,7 +80,7 @@ export default async function MangaDetailPage({
 
       <div className="mt-8">
         <a href="/" className="text-blue-500 hover:underline">
-          ←　一覧に戻る
+          ← 一覧に戻る
         </a>
       </div>
     </div>
