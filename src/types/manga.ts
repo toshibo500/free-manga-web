@@ -9,4 +9,8 @@ export type Manga = {
   categories: string[]; // 複数カテゴリに対応
   description?: string;
   rating?: number;
+  ebookstores?: {
+    ebookstore_name: string;
+    manga_detail_url: string;
+  }[];
 };

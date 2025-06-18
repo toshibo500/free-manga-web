@@ -22,6 +22,7 @@ function convertToManga(apiManga: any): Manga {
     categories: Array.isArray(apiManga.categories) ? apiManga.categories : [], // 全てのカテゴリを配列として保持
     freeChapters: apiManga.free_chapters || 0, // APIからの値がない場合はデフォルト値を設定
     freeBooks: apiManga.free_books || 0, // APIからの値がない場合はデフォルト値を設定
+    ebookstores: Array.isArray(apiManga.ebookstores) ? apiManga.ebookstores : [], // 配信サイト情報
   };
 }
 

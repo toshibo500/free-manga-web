@@ -13,16 +13,26 @@
     "version": "v1"
   },
   "host": "localhost:8000",
-  "schemes": ["http"],
+  "schemes": [
+    "http"
+  ],
   "basePath": "/api/v1",
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "securityDefinitions": {
     "Basic": {
       "type": "basic"
     }
   },
-  "security": [{"Basic": []}],
+  "security": [
+    {
+      "Basic": []
+    }
+  ],
   "paths": {
     "/manga/": {
       "get": {
@@ -41,7 +51,10 @@
           "200": {
             "description": "",
             "schema": {
-              "required": ["count", "results"],
+              "required": [
+                "count",
+                "results"
+              ],
               "type": "object",
               "properties": {
                 "count": {
@@ -67,7 +80,9 @@
             }
           }
         },
-        "tags": ["manga"]
+        "tags": [
+          "manga"
+        ]
       },
       "parameters": []
     },
@@ -88,7 +103,9 @@
             }
           }
         },
-        "tags": ["manga"]
+        "tags": [
+          "manga"
+        ]
       },
       "parameters": [
         {
@@ -112,7 +129,9 @@
             }
           }
         },
-        "tags": ["manga"]
+        "tags": [
+          "manga"
+        ]
       },
       "parameters": [
         {
@@ -126,8 +145,33 @@
     }
   },
   "definitions": {
+    "EbookStoreDetail": {
+      "required": [
+        "ebookstore_name",
+        "manga_detail_url"
+      ],
+      "type": "object",
+      "properties": {
+        "ebookstore_name": {
+          "title": "Ebookstore name",
+          "type": "string",
+          "minLength": 1
+        },
+        "manga_detail_url": {
+          "title": "Manga detail url",
+          "type": "string",
+          "format": "uri",
+          "minLength": 1
+        }
+      }
+    },
     "Manga": {
-      "required": ["title", "author", "cover_image", "categories"],
+      "required": [
+        "title",
+        "author",
+        "cover_image",
+        "categories"
+      ],
       "type": "object",
       "properties": {
         "id": {
@@ -140,6 +184,12 @@
           "type": "string",
           "maxLength": 255,
           "minLength": 1
+        },
+        "isbn": {
+          "title": "ISBN",
+          "type": "string",
+          "maxLength": 50,
+          "x-nullable": true
         },
         "author": {
           "title": "Author",
@@ -166,6 +216,12 @@
           "type": "string",
           "x-nullable": true
         },
+        "first_book_title": {
+          "title": "1巻タイトル",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
         "rating": {
           "title": "Rating",
           "type": "integer",
@@ -181,10 +237,17 @@
         },
         "free_books": {
           "title": "Free books",
-          "description": "無料で読める巻数",
+          "description": "無料で読める冊数",
           "type": "integer",
           "maximum": 4294967295,
           "minimum": 0
+        },
+        "ebookstores": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EbookStoreDetail"
+          },
+          "readOnly": true
         }
       }
     }

@@ -4,148 +4,192 @@
  */
 
 export interface paths {
-  "/api/v1/manga/{id}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/manga/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description マンガ情報を取得するためのViewSet */
+        get: operations["manga_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** マンガの詳細情報を取得 */
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description マンガのID */
-          id: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description マンガ情報の取得成功 */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            "application/json": components["schemas"]["Manga"];
-          };
-        };
-        /** @description マンガが見つからない */
-        404: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            "application/json": {
-              error?: string;
+    "/manga/popular-books/{category}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                category: string;
             };
-          };
+            cookie?: never;
         };
-      };
+        /**
+         * カテゴリ別の人気マンガリストを取得するビュー
+         * @description クエリパラメータ:
+         *     - count: 返すマンガの件数（デフォルト: 10、最大: 100）
+         *     - offset: 開始位置（デフォルト: 0）
+         */
+        get: operations["manga_popular-books_read"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/manga/popular-books/{categoryId}/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** カテゴリー別の人気マンガを取得 */
-    get: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description カテゴリーID */
-          categoryId: string;
+    "/manga/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this マンガ. */
+                id: number;
+            };
+            cookie?: never;
         };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description 人気マンガリストの取得成功 */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            "application/json": components["schemas"]["Manga"][];
-          };
-        };
-      };
+        /** @description マンガ情報を取得するためのViewSet */
+        get: operations["manga_read"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    Manga: {
-      /** @description マンガの一意識別子 */
-      id: string;
-      /** @description マンガのタイトル */
-      title: string;
-      /** @description 作者名 */
-      author: string;
-      /** @description マンガの説明 */
-      description?: string;
-      /** @description カバー画像のURL */
-      coverImage?: string;
-      /** @description マンガのカテゴリー */
-      category: string;
-      /**
-       * Format: float
-       * @description 評価点（5点満点）
-       */
-      rating?: number;
-      /** @description チャプター一覧 */
-      chapters?: components["schemas"]["Chapter"][];
-      /** @description 公開状態 */
-      published?: boolean;
-      /**
-       * Format: date
-       * @description 出版日
-       */
-      publishDate?: string;
+    schemas: {
+        EbookStoreDetail: {
+            /** Ebookstore name */
+            ebookstore_name: string;
+            /**
+             * Manga detail url
+             * Format: uri
+             */
+            manga_detail_url: string;
+        };
+        Manga: {
+            /** Id */
+            readonly id?: number;
+            /** Title */
+            title: string;
+            /** ISBN */
+            isbn?: string | null;
+            /** Author */
+            author: string;
+            /**
+             * Cover image
+             * Format: uri
+             */
+            cover_image: string;
+            categories: string[];
+            /** Description */
+            description?: string | null;
+            /** 1巻タイトル */
+            first_book_title?: string | null;
+            /** Rating */
+            rating?: number;
+            /**
+             * Free chapters
+             * @description 無料で読める話数
+             */
+            free_chapters?: number;
+            /**
+             * Free books
+             * @description 無料で読める冊数
+             */
+            free_books?: number;
+            readonly ebookstores?: components["schemas"]["EbookStoreDetail"][];
+        };
     };
-    Chapter: {
-      /** @description チャプターの一意識別子 */
-      id: string;
-      /** @description チャプタータイトル */
-      title: string;
-      /** @description チャプター番号 */
-      number?: number;
-      /** @description ページ数 */
-      pages?: number;
-      /**
-       * Format: date
-       * @description リリース日
-       */
-      releaseDate?: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
-export type operations = Record<string, never>;
+export interface operations {
+    manga_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        count: number;
+                        /** Format: uri */
+                        next?: string | null;
+                        /** Format: uri */
+                        previous?: string | null;
+                        results: components["schemas"]["Manga"][];
+                    };
+                };
+            };
+        };
+    };
+    "manga_popular-books_read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                category: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Manga"][];
+                };
+            };
+        };
+    };
+    manga_read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this マンガ. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Manga"];
+                };
+            };
+        };
+    };
+}

@@ -1,0 +1,268 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Manga API",
+        "description": "API for retrieving manga information",
+        "termsOfService": "https://www.example.com/terms/",
+        "contact": {
+            "email": "contact@example.com"
+        },
+        "license": {
+            "name": "BSD License"
+        },
+        "version": "v1"
+    },
+    "security": [
+        {
+            "Basic": []
+        }
+    ],
+    "paths": {
+        "/manga/": {
+            "get": {
+                "operationId": "manga_list",
+                "description": "マンガ情報を取得するためのViewSet",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "count",
+                                        "results"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer"
+                                        },
+                                        "next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "nullable": true
+                                        },
+                                        "previous": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "nullable": true
+                                        },
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Manga"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "manga"
+                ]
+            },
+            "parameters": []
+        },
+        "/manga/popular-books/{category}/": {
+            "get": {
+                "operationId": "manga_popular-books_read",
+                "summary": "カテゴリ別の人気マンガリストを取得するビュー",
+                "description": "クエリパラメータ:\n- count: 返すマンガの件数（デフォルト: 10、最大: 100）\n- offset: 開始位置（デフォルト: 0）",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Manga"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "manga"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "category",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ]
+        },
+        "/manga/{id}/": {
+            "get": {
+                "operationId": "manga_read",
+                "description": "マンガ情報を取得するためのViewSet",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Manga"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "manga"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this マンガ.",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ]
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api/v1"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "Basic": {
+                "type": "http",
+                "scheme": "basic"
+            }
+        },
+        "schemas": {
+            "EbookStoreDetail": {
+                "required": [
+                    "ebookstore_name",
+                    "manga_detail_url"
+                ],
+                "type": "object",
+                "properties": {
+                    "ebookstore_name": {
+                        "title": "Ebookstore name",
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "manga_detail_url": {
+                        "title": "Manga detail url",
+                        "type": "string",
+                        "format": "uri",
+                        "minLength": 1
+                    }
+                }
+            },
+            "Manga": {
+                "required": [
+                    "title",
+                    "author",
+                    "cover_image",
+                    "categories"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "title": {
+                        "title": "Title",
+                        "type": "string",
+                        "maxLength": 255,
+                        "minLength": 1
+                    },
+                    "isbn": {
+                        "title": "ISBN",
+                        "type": "string",
+                        "maxLength": 50,
+                        "nullable": true
+                    },
+                    "author": {
+                        "title": "Author",
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "cover_image": {
+                        "title": "Cover image",
+                        "type": "string",
+                        "format": "uri",
+                        "maxLength": 200,
+                        "minLength": 1
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "uniqueItems": true
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "first_book_title": {
+                        "title": "1巻タイトル",
+                        "type": "string",
+                        "maxLength": 255,
+                        "nullable": true
+                    },
+                    "rating": {
+                        "title": "Rating",
+                        "type": "integer",
+                        "maximum": 4294967295,
+                        "minimum": 0
+                    },
+                    "free_chapters": {
+                        "title": "Free chapters",
+                        "description": "無料で読める話数",
+                        "type": "integer",
+                        "maximum": 4294967295,
+                        "minimum": 0
+                    },
+                    "free_books": {
+                        "title": "Free books",
+                        "description": "無料で読める冊数",
+                        "type": "integer",
+                        "maximum": 4294967295,
+                        "minimum": 0
+                    },
+                    "ebookstores": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EbookStoreDetail"
+                        },
+                        "readOnly": true
+                    }
+                }
+            }
+        }
+    }
+}

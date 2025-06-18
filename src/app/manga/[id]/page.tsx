@@ -70,10 +70,32 @@ export default async function MangaDetailPage({
             <p className="text-gray-700">{manga.description}</p>
           </div>
 
-          <div className="pt-4">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition duration-300">
-              今すぐ無料で読む
-            </button>
+          <div className="pt-4 flex flex-col gap-3">
+            {Array.isArray(manga.ebookstores) && manga.ebookstores.length > 0 ? (
+              manga.ebookstores.map((store, idx) => {
+                const colors = [
+                  "bg-blue-600 hover:bg-blue-700",
+                  "bg-green-600 hover:bg-green-700",
+                  "bg-pink-600 hover:bg-pink-700",
+                  "bg-yellow-500 hover:bg-yellow-600 text-gray-900",
+                  "bg-purple-600 hover:bg-purple-700",
+                ];
+                const color = colors[idx % colors.length];
+                return (
+                  <a
+                    key={store.ebookstore_name}
+                    href={store.manga_detail_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${color} text-white font-bold py-2 px-6 rounded-full transition duration-300 block text-center`}
+                  >
+                    {store.ebookstore_name} で読む
+                  </a>
+                );
+              })
+            ) : (
+              <span className="text-gray-400">配信サイト情報はありません</span>
+            )}
           </div>
         </div>
       </div>
