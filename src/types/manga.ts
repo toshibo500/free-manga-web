@@ -12,5 +12,7 @@ export type Manga = {
   ebookstores?: {
     ebookstore_name: string;
     manga_detail_url: string;
+    free_chapters: number;
+    free_books: number; // 無料で読める冊数
   }[];
 };

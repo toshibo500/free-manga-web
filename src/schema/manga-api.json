@@ -148,7 +148,9 @@
     "EbookStoreDetail": {
       "required": [
         "ebookstore_name",
-        "manga_detail_url"
+        "manga_detail_url",
+        "free_chapters",
+        "free_books"
       ],
       "type": "object",
       "properties": {
@@ -162,6 +164,20 @@
           "type": "string",
           "format": "uri",
           "minLength": 1
+        },
+        "free_chapters": {
+          "title": "Free chapters",
+          "description": "無料で読める話数",
+          "type": "integer",
+          "maximum": 4294967295,
+          "minimum": 0
+        },
+        "free_books": {
+          "title": "Free books",
+          "description": "無料で読める冊数",
+          "type": "integer",
+          "maximum": 4294967295,
+          "minimum": 0
         }
       }
     },

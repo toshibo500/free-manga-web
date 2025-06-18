@@ -77,6 +77,16 @@ export interface components {
              * Format: uri
              */
             manga_detail_url: string;
+            /**
+             * Free chapters
+             * @description 無料で読める話数
+             */
+            free_chapters: number;
+            /**
+             * Free books
+             * @description 無料で読める冊数
+             */
+            free_books: number;
         };
         Manga: {
             /** Id */

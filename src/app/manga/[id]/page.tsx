@@ -90,6 +90,13 @@ export default async function MangaDetailPage({
                     className={`${color} text-white font-bold py-2 px-6 rounded-full transition duration-300 block text-center`}
                   >
                     {store.ebookstore_name} で読む
+                    {(store.free_books > 0 || store.free_chapters > 0) && (
+                      <span className="block text-xs font-normal mt-1">
+                        {store.free_books > 0 && `無料${store.free_books}冊`}
+                        {store.free_books > 0 && store.free_chapters > 0 && '・'}
+                        {store.free_chapters > 0 && `無料${store.free_chapters}話`}
+                      </span>
+                    )}
                   </a>
                 );
               })
