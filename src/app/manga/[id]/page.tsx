@@ -9,7 +9,8 @@ export default async function MangaDetailPage({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+    const resolvedParams = await params;
+    const { id } = resolvedParams;
 
   // サーバーサイドでデータを直接フェッチ
   let manga: Manga | undefined;
