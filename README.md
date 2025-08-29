@@ -60,7 +60,7 @@ npm install
 npm run build
 
 # PM2でアプリケーションを再起動
-pm2 restart free-manga-web
+pm2 restart freemangadb
 ```
 
 ### 2. 環境変数(.env.production)の更新手順
@@ -87,17 +87,17 @@ pm2 restart プロセス名 --update-env  # 環境変数の更新を反映して
 pm2 status
 
 # 特定のアプリケーションのログを表示
-pm2 logs free-manga-web
+pm2 logs freemangadb
 
 # 最新の10行だけ表示
-pm2 logs free-manga-web --lines 10
+pm2 logs freemangadb --lines 10
 ```
 
 ### 4. メンテナンス・トラブルシューティング
 
 ```bash
 # PM2プロセスの詳細情報を表示
-pm2 show free-manga-web
+pm2 show freemangadb
 
 # メモリ使用量などのモニタリング
 pm2 monit
