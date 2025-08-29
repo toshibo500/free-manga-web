@@ -11,7 +11,12 @@ type MangaCardProps = {
 
 const MangaCard: React.FC<MangaCardProps> = ({ manga, rank }) => {
   return (
-    <Link href={`/manga/${manga.id}`} className="block">
+    <Link 
+      href={`/manga/${manga.id}`} 
+      className="block" 
+      target="_blank" 
+      rel="noopener noreferrer"
+    >
       <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105 relative">
         <div className="flex items-start">
           <div className="relative h-80 w-78 flex-shrink-0">
