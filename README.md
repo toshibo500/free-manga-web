@@ -2,6 +2,8 @@
 
 Next.jsで構築された無料マンガデータベースのWebアプリケーションです。
 
+> 📋 **技術仕様・アーキテクチャ詳細**: [Architecture.md](./Architecture.md) をご確認ください
+
 ## 開発環境のセットアップ
 
 ### 前提条件
@@ -38,17 +40,74 @@ docker-compose up -d
 
 アプリケーションは http://localhost:3000 でアクセスできます。
 
-## 本番環境用のビルド
+## 本番環境での更新手順 (PM2使用)
 
-本番環境用のビルドを作成するには：
+本番環境で PM2 を使用している場合のコードや環境変数の更新手順：
+
+### 1. コードの更新手順
 
 ```bash
-# 本番用環境変数を使用
-cp .env.example .env.production
-# 環境変数を編集
+# 本番サーバー上で、アプリのディレクトリに移動
+cd /var/www/free-manga/free-manga-web
+
+# 最新のコードを取得
+git pull origin master
+
+# 依存パッケージのインストール（必要な場合）
+npm install
+
+# 本番用にビルド
+npm run build
+
+# PM2でアプリケーションを再起動
+pm2 restart free-manga-web
+```
+
+### 2. 環境変数(.env.production)の更新手順
+
+```bash
+# ローカル環境で.env.productionを編集した場合、サーバーにアップロード
+scp .env.production ユーザー名@サーバーIP:/var/www/free-manga/free-manga-web/
+
+# または、サーバー上で直接編集
 nano .env.production
-# ビルドとスタート
-docker-compose -f docker-compose.prod.yml up -d
+
+# 重要: 環境変数の変更を反映するには再ビルドが必要
+npm run build
+
+# アプリケーションを再起動（環境変数の変更を反映）
+pm2 list                            # 現在のプロセス名を確認
+pm2 restart プロセス名 --update-env  # 環境変数の更新を反映して再起動
+```
+
+### 3. PM2ログの確認方法
+
+```bash
+# すべてのアプリケーションのステータス確認
+pm2 status
+
+# 特定のアプリケーションのログを表示
+pm2 logs free-manga-web
+
+# 最新の10行だけ表示
+pm2 logs free-manga-web --lines 10
+```
+
+### 4. メンテナンス・トラブルシューティング
+
+```bash
+# PM2プロセスの詳細情報を表示
+pm2 show free-manga-web
+
+# メモリ使用量などのモニタリング
+pm2 monit
+
+# PM2設定を再ロード（設定ファイル変更後）
+pm2 reload ecosystem.config.js
+
+# Nginxの設定やログ確認
+sudo nginx -t
+sudo tail -f /var/log/nginx/error.log
 ```
 
 ## 環境変数について
